@@ -245,19 +245,6 @@ export default function EcommerceNavbar() {
               />
             </button>
 
-            {/* Wishlist */}
-            {/* <div className="relative hidden sm:block">
-              <button className="text-gray-600 hover:text-red-500 transition-colors duration-200 group">
-                <Heart className="w-6 h-6 group-hover:scale-110 transition-transform duration-200" />
-                {wishlistCount > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center animate-pulse">
-                    {wishlistCount}
-                  </span>
-                )}
-              </button>
-            </div> */}
-
-            {/* Cart */}
             <div className="relative">
               <Link href={"/cart"}>
                 <button className="text-gray-600 hover:text-lime-500 transition-colors duration-200 group">

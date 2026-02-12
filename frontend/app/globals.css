@@ -89,3 +89,132 @@ body {
   font-family: monospace;
   overflow-x: auto;
 }
+
+/* Amazon-like product card frame styles */
+.amazon-card {
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
+  overflow: hidden;
+  position: relative;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.amazon-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 20;
+  background: linear-gradient(90deg, #ff9900, #ff6a00);
+  color: white;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+
+.amazon-mrp {
+  color: #6b7280; /* gray-500 */
+  text-decoration: line-through;
+  font-size: 12px;
+  display: inline-block;
+}
+
+.amazon-corner {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 46px;
+  height: 46px;
+  background: var(--amz-orange);
+  border-top-left-radius: 22px;
+  box-shadow: -6px -6px 12px rgba(255, 153, 0, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  z-index: 15;
+}
+
+.amazon-card img {
+  transition: none;
+}
+.amazon-card:hover img {
+  transform: none;
+}
+
+/* Amazon color utilities */
+:root {
+  --amz-orange: #ff9900;
+  --amz-orange-dark: #ff6a00;
+}
+
+.amz-btn {
+  background: var(--amz-orange);
+  color: #fff !important;
+  border-radius: 0.5rem;
+}
+.amz-btn:hover {
+  background: var(--amz-orange-dark);
+}
+
+.amz-border-light {
+  border-color: rgba(255, 153, 0, 0.12) !important;
+}
+
+.amz-title {
+  color: #111827;
+  transition: color 0.2s ease;
+}
+.group:hover .amz-title {
+  color: var(--amz-orange);
+}
+
+.amz-quick svg {
+  transition: color 0.2s ease;
+  color: #374151;
+}
+.group:hover .amz-quick svg {
+  color: var(--amz-orange);
+}
+
+/* Slight border more like Amazon */
+.amazon-card {
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* Product detail specific Amazon styles */
+.amz-badge-gradient {
+  background: linear-gradient(90deg, var(--amz-orange), var(--amz-orange-dark));
+  color: white;
+  padding: 6px 10px;
+  border-radius: 999px;
+  box-shadow: 0 8px 24px rgba(255, 153, 0, 0.12);
+}
+
+.amz-stock {
+  background: var(--amz-orange);
+}
+
+.amz-ring {
+  box-shadow: 0 0 0 4px rgba(255, 153, 0, 0.14);
+}
+
+.amz-variant-selected {
+  background: #fff7ed;
+  color: #b45309;
+  border-color: rgba(255, 153, 0, 0.24) !important;
+  box-shadow: 0 0 0 3px rgba(255, 153, 0, 0.08);
+}
+
+.amz-variant-unselected-hover:hover {
+  border-color: rgba(255, 153, 0, 0.18) !important;
+}
+
+.amz-price-gradient {
+  background: linear-gradient(90deg, #b45309, #ff9900);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}

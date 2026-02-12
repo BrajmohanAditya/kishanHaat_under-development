@@ -11,7 +11,6 @@ import Loader from "@/app/commonComponents/loader";
 // import Description from "@/app/%28user%29/components/product/description";
 // import Description from "@/app/components/Description";
 
-
 import {
   BugPlayIcon,
   Share,
@@ -103,7 +102,7 @@ export default function ProductDetailClient({
   };
 
   return (
-    <div className="min-h-screen pb-10 bg-gradient-to-br from-slate-50 via-gray-200 to-green-50">
+    <div className="min-h-screen pb-10 bg-gradient-to-br from-slate-50 via-gray-200 to-orange-50">
       {/* Animated Background Elements */}
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 py-4">
@@ -112,21 +111,21 @@ export default function ProductDetailClient({
           <nav className="flex flex-wrap items-center space-x-1 text-[4px] sm:text-[8px] text-gray-500">
             <Link
               href={"/"}
-              className="hover:text-green-600 cursor-pointer transition-colors"
+              className="hover:text-[#ff9900] cursor-pointer transition-colors"
             >
               <Heading title="Home" />
             </Link>
             <Heading title="/" />
             <Link
               href={"/products"}
-              className="hover:text-green-600 cursor-pointer transition-colors"
+              className="hover:text-[#ff9900] cursor-pointer transition-colors"
             >
               <Heading title="Products" />
             </Link>{" "}
             <Heading title="/" />
             <Link
               href={`/products?search=${product?.categoryId}`}
-              className="hover:text-green-600 cursor-pointer transition-colors"
+              className="hover:text-[#ff9900] cursor-pointer transition-colors"
             >
               <Heading title={product?.Category?.name} />
             </Link>
@@ -217,7 +216,7 @@ export default function ProductDetailClient({
               )}
               {/* Floating Discount Badge */}
               <div className="absolute top-4 right-4 transform rotate-12">
-                <div className="bg-gradient-to-r from-lime-600 via-green-600 to-emerald-500 text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg animate-pulse">
+                <div className="amz-badge-gradient px-3 py-1 rounded-full text-sm font-bold shadow-lg animate-pulse">
                   {discountPercentage(
                     parseFloat(product.originalPrice),
                     parseFloat(product.discountPrice),
@@ -238,7 +237,7 @@ export default function ProductDetailClient({
                     <div
                       key={index}
                       className={`group aspect-square relative overflow-hidden rounded-xl bg-gray-100 cursor-pointer transform transition-all duration-300 hover:scale-105 hover:shadow-lg animate-fade-in-up ${
-                        selectedImage === index ? "ring-2 ring-green-500" : ""
+                        selectedImage === index ? "ring-2 amz-ring" : ""
                       }`}
                       style={{ animationDelay: `${index * 100}ms` }}
                       onClick={() => setSelectedImage(index)}
@@ -276,7 +275,7 @@ export default function ProductDetailClient({
             {/* Header */}
             <div className="space-y-4">
               <div className=" flex flex-row justify-between ">
-                <span className=" bg-gradient-to-r from-green-100 to-lime-100 text-green-800 text-sm font-semibold px-3 py-2 rounded-full">
+                <span className="amz-badge-gradient px-3 py-2 text-sm font-semibold rounded-full">
                   {product.Category?.name || "Uncategorized"}
                 </span>
                 <div className="relative inline-block">
@@ -324,7 +323,7 @@ export default function ProductDetailClient({
             <div className="space-y-1 ">
               <div className="flex items-center space-x-4">
                 <div>
-                  <span className="text-3xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
+                  <span className="text-3xl font-bold amz-price-gradient">
                     ₹
                     {selectedVariant
                       ? selectedVariant.price
@@ -359,13 +358,9 @@ export default function ProductDetailClient({
               </div>
             </div>
 
-{/* Description */}
-<Description description={product.description} />
-{/* <Description description={"hello"} /> */}
-
-
-
-
+            {/* Description */}
+            <Description description={product.description} />
+            {/* <Description description={"hello"} /> */}
 
             {/* Product Details Grid */}
             {((!selectedVariant && product?.stock < 10) ||
@@ -376,7 +371,7 @@ export default function ProductDetailClient({
                     Stock Available
                   </h4>
                   <div className="flex items-center space-x-2">
-                    <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                    <div className="w-3 h-3 amz-stock rounded-full animate-pulse"></div>
                     <span className="text-gray-700 font-medium">
                       {selectedVariant ? selectedVariant.stock : product.stock}{" "}
                       units
@@ -413,7 +408,7 @@ export default function ProductDetailClient({
                   );
                   router.push("/cart");
                 }}
-                className="w-full group relative bg-gradient-to-r from-green-600 to-lime-600 hover:from-green-600 hover:to-green-600 text-white font-semibold py-4 px-8 rounded-2xl transition-all duration-300 transform hover:scale-105 hover:shadow-2xl overflow-hidden"
+                className="w-full group relative amz-btn font-semibold py-4 px-8 rounded-2xl transition-all duration-300 overflow-hidden"
               >
                 <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 skew-x-12"></div>
                 <div className="relative flex items-center justify-center space-x-2">
@@ -445,7 +440,7 @@ export default function ProductDetailClient({
                     }),
                   );
                 }}
-                className="w-full group bg-white/80 backdrop-blur-sm hover:bg-white border-2 border-gray-200 hover:border-green-300 text-gray-700 hover:text-green-600 font-semibold py-4 px-8 rounded-2xl transition-all duration-300 transform hover:scale-105 hover:shadow-xl"
+                className="w-full group bg-white/80 backdrop-blur-sm hover:bg-white border-2 border-gray-200 hover:border-amz-border-light text-gray-700 hover:text-[#ff9900] font-semibold py-4 px-8 rounded-2xl transition-all duration-300 hover:shadow-xl"
               >
                 <div className="flex items-center justify-center space-x-2">
                   <ShoppingCart /> <span>Add to cart</span>
@@ -466,8 +461,8 @@ export default function ProductDetailClient({
                       onClick={() => handleVariantClick(variant)}
                       className={`p-3 rounded-xl border flex flex-col items-center ${
                         selectedVariant?.id === variant.id
-                          ? "bg-green-100 text-green-800 border-green-600 ring-2 ring-green-500"
-                          : "bg-white border-gray-300 text-gray-700 hover:border-green-400"
+                          ? "amz-variant-selected"
+                          : "bg-white border-gray-300 text-gray-700 amz-variant-unselected-hover"
                       }`}
                     >
                       {/* Variant image if available */}
