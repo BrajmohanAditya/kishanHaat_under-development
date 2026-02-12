@@ -6,7 +6,8 @@ const path = require("path");
 const express = require("express");
 const cors = require("cors");
 require("./config/db");
-const { connectRedis } = require("./config/redis_config");
+// Redis is optional in local dev; comment out to avoid connection errors
+// const { connectRedis } = require("./config/redis_config");
 
 const app = express();
 const allowedOrigins = [
@@ -19,13 +20,13 @@ app.use(
   cors({
     origin: allowedOrigins, // or your frontend URL
     credentials: true, // allow sending cookies/headers
-  })
+  }),
 );
 app.use(express.json());
 app.use(cookieParser());
-(async () => {
-  await connectRedis(); // Initialize Redis connection
-})();
+// (async () => {
+//   await connectRedis(); // Initialize Redis connection
+// })();
 
 app.use(morgan("dev")); // Shows :method :url :status :response-time ms
 

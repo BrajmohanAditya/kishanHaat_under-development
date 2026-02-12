@@ -1,12 +1,12 @@
 const { Sequelize } = require("sequelize");
 
 const sequelize = new Sequelize(
-  process.env.DB_NAME,
-  process.env.DB_USER,
-  process.env.DB_PASS,
+  process.env.DB_NAME || "database_development",
+  process.env.DB_USER || "root",
+  process.env.DB_PASS || null,
   {
-    host: process.env.DB_HOST,
-    dialect: process.env.DB_DIALECT,
+    host: process.env.DB_HOST || "127.0.0.1",
+    dialect: process.env.DB_DIALECT || "mysql",
     timezone: "+05:30",
     logging: false, // 👈 disables console SQL logs
 
@@ -16,7 +16,7 @@ const sequelize = new Sequelize(
         rejectUnauthorized: false,
       },
     },
-  }
+  },
 );
 try {
   sequelize.authenticate();
