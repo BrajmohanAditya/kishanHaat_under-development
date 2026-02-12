@@ -1,9 +1,10 @@
 import axios from "axios";
-import { serverurl } from "@/app/contants";
+
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || "";
 
 const instance = axios.create({
   withCredentials: true, // This is crucial for sending cookies
-  baseURL: `${serverurl}`,
+  baseURL: API_BASE,
 });
 
 instance.interceptors.request.use(
@@ -16,18 +17,17 @@ instance.interceptors.request.use(
   (error) => {
     console.log("Request Interceptor Error", error);
     return Promise.reject(error);
-  }
+  },
 );
 
 const refreshAccessToken = async () => {
   try {
     // No need to send refreshToken in body since it's in httpOnly cookie
-    const response = await axios.post(
-      `${serverurl}/user/refreshtoken`,
+    // Use the axios instance so baseURL and credentials are applied
+    const response = await instance.post(
+      `/user/refreshtoken`,
       {}, // Empty body
-      {
-        withCredentials: true, // Send cookies with this request
-      }
+      { withCredentials: true },
     );
 
     // Backend sets new accessToken cookie automatically
@@ -45,7 +45,7 @@ instance.interceptors.response.use(
     // Skip token refresh on /auth routes
     const authEndpoints = ["/authentication/login", "/authentication/register"];
     const isAuthRequest = authEndpoints.some((endpoint) =>
-      originalRequest.url?.includes(endpoint)
+      originalRequest.url?.includes(endpoint),
     );
 
     if (
@@ -65,7 +65,7 @@ instance.interceptors.response.use(
     }
 
     return Promise.reject(error);
-  }
+  },
 );
 
 export default instance;

@@ -10,7 +10,6 @@ import {
   Camera,
 } from "lucide-react";
 import Link from "next/link";
-import { useDispatch } from "react-redux";
 import { useAppDispatch } from "@/app/lib/store/store";
 import { registerUser } from "@/app/lib/store/features/authSlice";
 import { useRouter } from "next/navigation";
@@ -105,7 +104,7 @@ export default function RegisterForm() {
       const formData = new FormData();
       formData.append("email", email);
       formData.append("password", password);
-      formData.append("fullname", password);
+      formData.append("fullname", fullname);
       if (profileImage) formData.append("file", profileImage);
 
       const response = await dispatch(registerUser(formData)).unwrap();
@@ -117,16 +116,22 @@ export default function RegisterForm() {
       }
       setIsLoading(false);
     } catch (err) {
-      setErrors(err as string);
+      setErrors((prev) => ({
+        ...prev,
+        email:
+          typeof err === "string"
+            ? err
+            : (err as any)?.message || "An error occurred",
+      }));
 
-      console.log("errpr occured", err);
+      console.log("error occured", err);
     } finally {
       setIsLoading(false); // ✅ only stop loader after request is done
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-lime-100 via-white to-cyan-100 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
       <div className="w-full max-w-5xl">
         {/* Header */}
         <div className="text-center mb-8">
@@ -140,7 +145,7 @@ export default function RegisterForm() {
         <div className="rounded-3xl shadow-2xl border border-white/20 overflow-hidden">
           <div className="flex flex-col lg:flex-row">
             {/* Left Side - Profile Image */}
-            <div className="lg:w-1/3 bg-gradient-to-br from-lime-600/20 to-green-600/20 p-8 flex flex-col items-center justify-center space-y-6 border-b lg:border-b-0 lg:border-r border-white/20">
+            <div className="lg:w-1/3 bg-gradient-to-br from-[#FF9900]/10 to-[#FF9900]/15 p-8 flex flex-col items-center justify-center space-y-6 border-b lg:border-b-0 lg:border-r border-white/20">
               <div className="text-center">
                 <h3 className="text-2xl font-semibold text-gray-700 mb-2">
                   Profile Photo
@@ -188,7 +193,7 @@ export default function RegisterForm() {
                     onChange={handleImageUpload}
                     className="hidden"
                   />
-                  <div className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-lime-500 to-green-500 text-white rounded-xl hover:from-lime-600 hover:to-green-600 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105">
+                  <div className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-[#FF9900] to-[#FF8C00] text-white rounded-xl hover:from-[#FF9900] hover:to-[#FF8C00] transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105">
                     <Camera className="w-5 h-5" />
                     <span className="font-medium">
                       {profileImage ? "Change Photo" : "Upload Photo"}
@@ -228,7 +233,7 @@ export default function RegisterForm() {
                       type="text"
                       value={fullname}
                       onChange={(e) => setFullName(e.target.value)}
-                      className={`w-full pl-12 pr-4 py-3 border-2 rounded-xl bg-white/10 backdrop-blur-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-lime-500 focus:border-transparent text-black ${
+                      className={`w-full pl-12 pr-4 py-3 border-2 rounded-xl bg-white/10 backdrop-blur-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#FF9900] focus:border-transparent text-black ${
                         errors.fullname
                           ? "border-red-400"
                           : "border-white/20 hover:border-white/30"
@@ -291,7 +296,7 @@ export default function RegisterForm() {
                       type={showPassword ? "text" : "password"}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      className={`w-full pl-12 pr-12 py-3 border-2 rounded-xl bg-white/10 backdrop-blur-sm transition-all text-black duration-200 focus:outline-none focus:ring-2 focus:ring-lime-500 focus:border-transparent  ${
+                      className={`w-full pl-12 pr-12 py-3 border-2 rounded-xl bg-white/10 backdrop-blur-sm transition-all text-black duration-200 focus:outline-none focus:ring-2 focus:ring-[#FF9900] focus:border-transparent  ${
                         errors.password
                           ? "border-red-400"
                           : "border-white/20 hover:border-white/30"
@@ -322,7 +327,7 @@ export default function RegisterForm() {
                   <input
                     type="checkbox"
                     id="terms"
-                    className="h-4 w-4 text-lime-600 focus:ring-lime-500 border-gray-300 rounded bg-white/10"
+                    className="h-4 w-4 text-[#FF9900] focus:ring-[#FF9900] border-gray-300 rounded bg-white/10"
                   />
                   <label
                     htmlFor="terms"
@@ -331,14 +336,14 @@ export default function RegisterForm() {
                     I agree to the{" "}
                     <a
                       href="#"
-                      className="text-lime-400 hover:text-lime-600 font-medium"
+                      className="text-[#FF9900] hover:text-[#FF8C00] font-medium"
                     >
                       Terms of Service
                     </a>{" "}
                     and{" "}
                     <a
                       href="#"
-                      className="text-lime-400 hover:text-lime-600 font-medium"
+                      className="text-[#FF9900] hover:text-[#FF8C00] font-medium"
                     >
                       Privacy Policy
                     </a>
@@ -350,7 +355,7 @@ export default function RegisterForm() {
                   type="button"
                   onClick={handleSubmit}
                   disabled={isLoading}
-                  className="w-full bg-gradient-to-r from-lime-600 to-green-600 text-white py-4 px-6 rounded-xl font-medium shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center space-x-2"
+                  className="w-full bg-gradient-to-r from-[#FF9900] to-[#FF8C00] text-white py-4 px-6 rounded-xl font-medium shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center space-x-2"
                 >
                   {isLoading ? (
                     <>

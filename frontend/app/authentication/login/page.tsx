@@ -23,7 +23,7 @@ export default function LoginForm() {
     return emailRegex.test(email);
   };
   const { status, error, isAuthenticated } = useAppSelector(
-    (state) => state.auth
+    (state) => state.auth,
   );
   const isLoading = status === "loading";
 
@@ -79,11 +79,11 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-white to-cyan-100 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         {/* Logo/Header */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-lime-400 to-lime-600 rounded-2xl mb-4 shadow-lg">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-[#FF9900] to-[#FF8C00] rounded-2xl mb-4 shadow-lg">
             <User className="w-8 h-8 text-white" />
           </div>
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
@@ -112,7 +112,7 @@ export default function LoginForm() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className={`w-full pl-12 pr-4 py-3 border-2 rounded-xl bg-white/50 backdrop-blur-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-lime-600 focus:border-transparent text-black ${
+                  className={`w-full pl-12 pr-4 py-3 border-2 rounded-xl bg-white/50 backdrop-blur-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#FF9900] focus:border-transparent text-black ${
                     errors.email
                       ? "border-red-300"
                       : "border-gray-200 hover:border-gray-300"
@@ -142,7 +142,7 @@ export default function LoginForm() {
                   type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className={`w-full pl-12 pr-12 py-3 border-2 rounded-xl bg-white/50 backdrop-blur-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-lime-600 focus:border-transparent text-black ${
+                  className={`w-full pl-12 pr-12 py-3 border-2 rounded-xl bg-white/50 backdrop-blur-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#FF9900] focus:border-transparent text-black ${
                     errors.password
                       ? "border-red-300"
                       : "border-gray-200 hover:border-gray-300"
@@ -171,13 +171,13 @@ export default function LoginForm() {
               <label className="flex items-center">
                 <input
                   type="checkbox"
-                  className="h-4 w-4 text-lime-600 focus:ring-lime-700 border-gray-300 rounded"
+                  className="h-4 w-4 text-[#FF9900] focus:ring-[#FF8C00] border-gray-300 rounded"
                 />
                 <span className="ml-2 text-sm text-gray-600">Remember me</span>
               </label>
               <a
                 href="#"
-                className="text-sm text-lime-600 hover:text-lime-500 font-medium"
+                className="text-sm text-[#FF9900] hover:text-[#FF8C00] font-medium"
               >
                 Forgot password?
               </a>
@@ -188,7 +188,7 @@ export default function LoginForm() {
               type="button"
               onClick={handleSubmit}
               disabled={isLoading}
-              className="w-full bg-gradient-to-r from-lime-600 to-lime-500 text-white py-3 px-4 rounded-xl font-medium shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center space-x-2"
+              className="w-full bg-gradient-to-r from-[#FF9900] to-[#FF8C00] text-white py-3 px-4 rounded-xl font-medium shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center space-x-2"
             >
               {isLoading ? (
                 <>
@@ -211,7 +211,7 @@ export default function LoginForm() {
             Don&#39;t have an account?{" "}
             <Link
               href="/authentication/register"
-              className="font-medium text-lime-600 hover:text-lime-500"
+              className="font-medium text-[#FF9900] hover:text-[#FF8C00]"
             >
               Sign up
             </Link>
