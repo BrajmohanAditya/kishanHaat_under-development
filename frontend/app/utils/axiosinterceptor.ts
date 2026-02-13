@@ -43,7 +43,8 @@ instance.interceptors.response.use(
     const originalRequest = error.config;
 
     // Skip token refresh on /auth routes
-    const authEndpoints = ["/authentication/login", "/authentication/register"];
+    // Skip token refresh on /auth routes and the refresh token endpoint itself
+    const authEndpoints = ["/authentication/login", "/authentication/register", "/user/refreshtoken"];
     const isAuthRequest = authEndpoints.some((endpoint) =>
       originalRequest.url?.includes(endpoint),
     );
@@ -59,8 +60,9 @@ instance.interceptors.response.use(
         await refreshAccessToken();
         return instance(originalRequest);
       } catch (refreshError) {
-        // console.error("Token refresh failed:", refreshError);
-        // window.location.href = "/authentication/login";
+        console.error("Token refresh failed:", refreshError);
+        window.location.href = "/authentication/login";
+        return Promise.reject(refreshError);
       }
     }
 

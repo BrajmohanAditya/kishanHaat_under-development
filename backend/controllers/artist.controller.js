@@ -1,7 +1,7 @@
 const { Artist, Product } = require("../models");
 
 // Create a new artist
-
+    
 // Get single artist by id
 exports.getArtistById = async (req, res) => {
   try {

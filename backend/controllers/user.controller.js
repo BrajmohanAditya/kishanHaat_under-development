@@ -41,6 +41,16 @@ exports.registerUser = async (req, res, next) => {
     const avatar = req.file ? req.file.filename : null;
     const userData = { fullname, email, password: hashedPassword, avatar };
 
+    if (!process.env.ACTIVATION_SECRET) {
+      console.error("ACTIVATION_SECRET is not set in environment");
+      return next(
+        new ErrorHandler(
+          "Server misconfiguration: ACTIVATION_SECRET not set",
+          500,
+        ),
+      );
+    }
+
     const activationToken = jwt.sign(userData, process.env.ACTIVATION_SECRET, {
       expiresIn: "5m",
     });
@@ -54,15 +64,22 @@ exports.registerUser = async (req, res, next) => {
     // });
 
     console.log("hererere=->");
-    await sendmail(
-      "email_verify.hbs",
-      {
-        fullname,
-        activationUrl,
-      },
-      email,
-      "Verify Your account",
-    );
+    // In development skip sending real emails to avoid SMTP errors
+    if (process.env.NODE_ENV === "production" && process.env.SMTP_HOST) {
+      await sendmail(
+        "email_verify.hbs",
+        {
+          fullname,
+          activationUrl,
+        },
+        email,
+        "Verify Your account",
+      );
+    } else {
+      console.log(
+        `DEV: Skipping sendmail for ${email}. Activation URL: ${activationUrl}`,
+      );
+    }
 
     res.status(201).json({
       success: true,
@@ -96,7 +113,12 @@ exports.activateUser = async (req, res, next) => {
 exports.loginUser = async (req, res, next) => {
   try {
     const { email, password } = req.body;
+    console.log("--> Login Request Received");
+    console.log("Headers CT:", req.headers['content-type']);
+    console.log("Body:", req.body);
+
     if (!email || !password) {
+      console.log("Missing fields in login -> 400");
       return next(new ErrorHandler("Please provide all fields", 400));
     }
 
@@ -341,10 +363,14 @@ exports.refreshToken = async (req, res) => {
   try {
     console.log("here==>");
     const token = req.cookies.refreshToken || req.body.refreshToken;
-    console.log("-435", token);
+    console.log("--> Refresh Token Check");
+    console.log("Cookies:", req.cookies);
+    console.log("Token from cookies/body:", token);
 
-    if (!token)
+    if (!token) {
+      console.log("No refresh token found -> 401");
       return res.status(401).json({ message: "No refresh token provided" });
+    }
 
     const decoded = jwt.verify(token, process.env.JWT_REFRESH_SECRET);
     const user = await User.findByPk(decoded.id);
@@ -357,12 +383,16 @@ exports.refreshToken = async (req, res) => {
     const newAccessToken = generateAccessToken(user);
     console.log("-458", newAccessToken);
 
-    res.cookie("accessToken", newAccessToken, {
+    // Use same cookie policy as login
+    const isProduction = process.env.NODE_ENV === "production";
+    const accessCookieOpts = {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "Strict",
+      secure: isProduction,
+      sameSite: isProduction ? "None" : "Lax",
       maxAge: 15 * 60 * 1000, // 15 minutes
-    });
+    };
+
+    res.cookie("accessToken", newAccessToken, accessCookieOpts);
 
     return res.json({
       message: "Token refreshed successfully",

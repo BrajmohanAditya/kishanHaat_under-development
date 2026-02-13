@@ -8,7 +8,14 @@ exports.isAuthenticated = catchAsyncErrors(async (req, res, next) => {
   const token =
     req.cookies.accessToken ||
     (req.headers.authorization && req.headers.authorization.split(" ")[1]);
+
+  console.log("--> isAuthenticated Check");
+  console.log("Cookies:", req.cookies);
+  console.log("Headers Auth:", req.headers.authorization);
+  console.log("Token found:", !!token);
+
   if (!token) {
+    console.log("No token found -> 401");
     return next(new ErrorHandler("Please login to continue", 401));
   }
 

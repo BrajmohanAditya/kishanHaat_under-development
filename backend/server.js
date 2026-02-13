@@ -30,6 +30,12 @@ app.use(cookieParser());
 
 app.use(morgan("dev")); // Shows :method :url :status :response-time ms
 
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
+  console.log("Headers:", req.headers);
+  next();
+});
+
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // app.use("/api", routes); // All routes prefixed with /api
@@ -53,6 +59,18 @@ app.use("/variants", require("./routes/variant.route"));
 
 app.get("/", (req, res) => {
   res.json("hello from backend");
+});
+
+// Middleware for Errors
+app.use((err, req, res, next) => {
+  console.error("Global Error Handler Caught:", err);
+  const statusCode = err.statusCode || 500;
+  const message = err.message || "Internal Server Error";
+  res.status(statusCode).json({
+    success: false,
+    message: message,
+    stack: process.env.NODE_ENV === "development" ? err.stack : undefined
+  });
 });
 
 let port = process.env.PORT || 8000;

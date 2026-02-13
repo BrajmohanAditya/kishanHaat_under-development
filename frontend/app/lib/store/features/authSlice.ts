@@ -40,7 +40,10 @@ export const emailLogin = createAsyncThunk(
     try {
       const response = await authService.emailLogin(credentials);
       return response;
-    } catch (err: unknown) {
+    } catch (err: any) {
+      if (err.response && err.response.data && err.response.data.message) {
+        return rejectWithValue(err.response.data.message);
+      }
       if (err instanceof Error) {
         return rejectWithValue(err.message);
       }

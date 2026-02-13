@@ -10,48 +10,48 @@ const router = express.Router();
 router.post(
   "/create-user",
   upload.single("file"),
-  catchAsyncErrors(userController.registerUser)
+  catchAsyncErrors(userController.registerUser),
 );
 router.post("/activation", catchAsyncErrors(userController.activateUser));
 router.post("/login-user", catchAsyncErrors(userController.loginUser));
 router.get(
   "/getuser",
   isAuthenticated,
-  catchAsyncErrors(userController.getUser)
+  catchAsyncErrors(userController.getUser),
 );
 router.put(
   "/update-user-info",
   isAuthenticated,
-  catchAsyncErrors(userController.updateUserInfo)
+  catchAsyncErrors(userController.updateUserInfo),
 );
 router.put(
   "/update-avatar",
   isAuthenticated,
   upload.single("image"),
-  catchAsyncErrors(userController.updateAvatar)
+  catchAsyncErrors(userController.updateAvatar),
 );
 router.put(
   "/update-user-addresses",
   isAuthenticated,
-  catchAsyncErrors(userController.updateUserAddress)
+  catchAsyncErrors(userController.updateUserAddress),
 );
 router.post("/logout", userController.logout);
 
 router.delete(
   "/delete-user-address/:id",
   isAuthenticated,
-  catchAsyncErrors(userController.deleteUserAddress)
+  catchAsyncErrors(userController.deleteUserAddress),
 );
 router.put(
   "/update-user-password",
   isAuthenticated,
-  catchAsyncErrors(userController.updatePassword)
+  catchAsyncErrors(userController.updatePassword),
 );
 router.get("/user-info/:id", catchAsyncErrors(userController.getUserById));
 router.post(
   "/refreshtoken",
-  isAuthenticated,
-  catchAsyncErrors(userController.refreshToken)
+  // Refresh should not require `isAuthenticated` because it uses the refresh cookie
+  catchAsyncErrors(userController.refreshToken),
 );
 
 // Admin
@@ -59,13 +59,13 @@ router.get(
   "/admin-all-users",
   isAuthenticated,
   isAdmin("admin"),
-  catchAsyncErrors(userController.getAllUsers)
+  catchAsyncErrors(userController.getAllUsers),
 );
 router.delete(
   "/delete-user/:id",
   isAuthenticated,
   isAdmin("admin"),
-  catchAsyncErrors(userController.deleteUser)
+  catchAsyncErrors(userController.deleteUser),
 );
 
 module.exports = router;
